@@ -1,0 +1,33 @@
+# -- coding:utf-8 --
+import requests
+from pyquery import PyQuery as pq
+import urllib.request
+import json
+import time
+import random
+def sleep(mytime=''):
+        time.sleep(mytime)
+def getHtml(url):
+    headers={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'}
+    page1=urllib.request.Request(url,headers=headers)
+    page=urllib.request.urlopen(page1)
+    html=page.read().decode('utf-8')
+    #print(html)
+    j = json.loads(html)['data']['rl']
+    length = len(j)
+    print("length:"+str(length))
+    for x in range(0,length):
+        name = j[x]['nn']
+        img_src = j[x]['rs1']
+        print(name+":"+img_src)
+        a = random.randint(1, 2)
+        b = random.randint(1, 9)
+        c = random.randint(1, 9)
+        d = random.randint(2, 9)
+        e = a + b * 0.1 + c * 0.01 + d * 0.001
+        print(e)
+        sleep(e)
+        urllib.request.urlretrieve(img_src, 'D:\\imgDouyu2\%s.jpg' % name)
+for x in range(1,4):
+    url = "https://www.douyu.com/gapi/rkc/directory/2_201/"+str(x)
+    getHtml(url)
